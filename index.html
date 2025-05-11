@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>紅球創意</title>
+
+    <style>
+        :root {
+            --deco-bg: 630px;
+            --deco-bg2: 130px;
+            --deco-bg3: 800px;
+        }
+
+        body {
+            margin: 0px;
+            background-color: #000;
+            color: white;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .logo {
+            width: 75px;
+        }
+
+        .triangle {
+            position: fixed;
+            display: inline-block;
+            margin: 0 5px;
+            vertical-align: middle;
+            width: calc(100% - var(--deco-bg) * 2);
+            height: calc(100vh - var(--deco-bg) * 2);
+            border-bottom: solid var(--deco-bg) rgb(200, 30, 50);
+            border-right: solid var(--deco-bg) rgb(200, 30, 50);
+            border-left: solid var(--deco-bg) transparent;
+            border-top: solid var(--deco-bg) transparent;
+            transition: all .5s;
+        }
+
+        .triangle2 {
+            position: fixed;
+            display: inline-block;
+            margin: 0 5px;
+            vertical-align: middle;
+            width: calc(100% - var(--deco-bg2) * 2);
+            height: calc(100vh - var(--deco-bg2) * 2);
+            border-bottom: solid var(--deco-bg2) rgb(199, 71, 86);
+            border-right: solid var(--deco-bg2) rgb(199, 71, 86);
+            border-left: solid var(--deco-bg2) transparent;
+            border-top: solid var(--deco-bg2) transparent;
+            transition: all .5s;
+        }
+
+        .triangle3 {
+            position: fixed;
+            display: inline-block;
+            margin: 0 5px;
+            vertical-align: middle;
+            width: calc(100% - var(--deco-bg3) * 2);
+            height: calc(100vh - var(--deco-bg3) * 2);
+            border-bottom: solid var(--deco-bg3) rgb(38, 38, 38);
+            border-right: solid var(--deco-bg3) rgb(38, 38, 38);
+            border-left: solid var(--deco-bg3) transparent;
+            border-top: solid var(--deco-bg3) transparent;
+            transition: all .5s;
+        }
+
+        .enter {
+            position: fixed;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100vw;
+            height: 100vh;
+            font-size: 1.2em;
+            transition: all .5s;
+            z-index: 1;
+        }
+
+        .enter span {
+            padding: 10px;
+            border: 1px solid white;
+            cursor: pointer;
+            background-color: rgba(0, 0, 0, .5);
+            backdrop-filter: blur(10px);
+        }
+
+        #container {
+            position: fixed;
+            top: 0px;
+            left: 0px;
+            margin-top: 100px;
+            margin-left: 10px;
+            opacity: 0;
+            left: 100px;
+            transition: all .5s;
+        }
+
+        .menu {
+            opacity: 0;
+            transition: all .5s;
+        }
+
+        .menu>div {
+            border-left: 4px solid rgb(200, 30, 50);
+            padding-left: 10px;
+            padding: 3px;
+        }
+
+        .menu>div:hover {
+            border-left: 4px solid rgb(233, 101, 117);
+        }
+
+        .menu>div:hover>span {
+            padding-left: 15px;
+            color: rgb(233, 101, 117)
+        }
+
+        .menu>div>span {
+            padding: 3px;
+            cursor: pointer;
+            transition: all .5s;
+        }
+
+        #introView {
+            opacity: 0;
+            transition: all .5s;
+        }
+
+        .work {
+            width: 161px;
+            height: 161px;
+            background-size: cover !important;
+            float: left;
+            margin: 7px;
+            margin-right: 0px;
+            margin-bottom: 0px;
+            background-repeat: no-repeat;
+            box-shadow: 0px 0px 10px black;
+            cursor: pointer;
+            transition: all .5s;
+            filter: grayscale(1);
+            box-sizing: border-box
+        }
+
+        .work:hover {
+            filter: grayscale(0);
+        }
+    </style>
+</head>
+
+<body>
+    <div
+        style="position: fixed; top:0px; left:0px; width: 100vw; height: 100vh; background-image: url(./assets/image/pu-hu.png); opacity: .2;background-size:cover">
+    </div>
+    <div style="position: fixed; top:0px; left:0px; display: flex;justify-content: center;align-items: center; ">
+        <img class="logo" src="./assets/image/logo-cht.png" />
+        <span style="font-weight: bolder; font-size: 1.7em;">數位藝術服務</span>
+    </div>
+    <div class="triangle2"></div>
+    <div class="triangle"></div>
+    <div class="triangle3"></div>
+    <div class="enter"><span onclick="enter();this.onclick=null;"
+            onmouseenter="this.style.outline='3px solid rgb(200, 30, 50)';"
+            onmouseleave="this.style.outline='0px solid rgb(200, 30, 50)';">ENTER</span>
+        <div style="margin-left: 20px;">請使用桌機有更好的瀏覽體驗</div>
+    </div>
+
+    <div id="container">
+        <div class="menu">
+            <div style="color:rgb(200, 30, 50);">MENU</div>
+            <div><span id="m_pickup"
+                    onclick="setActiveView(this);works.style.opacity = 1;works.style.zIndex=++layerCount;">精選作品展示</span>
+            </div>
+            <div><span id="m_intro"
+                    onclick="setActiveView(this);introView.style.opacity = 1;introView.style.zIndex=++layerCount;">服務說明</span>
+            </div>
+            <div><span id="m_free"
+                    onclick="setActiveView(this);free.style.opacity = 1;free.style.zIndex=++layerCount;">免費體驗</span>
+            </div>
+            <!-- <div><span id="m_pay"
+                    onclick="setActiveView(this);pay.style.opacity = 1;pay.style.zIndex=++layerCount;">付費圖案風格化</span>
+            </div> -->
+        </div>
+        <div id="introView"
+            style="position:fixed; top:0px;right:-330px; width:330px;height:100vh; background-color: rgba(60, 60, 60, .8);padding: 20px; box-sizing: border-box;overflow: scroll; color:#CCC; transition: all .5s; opacity: 0;">
+            <div style="background-color: rgb(200, 30, 50);height:5px"></div>
+            <div style="background-color: rgb(200, 30, 50);height:1px; margin-top: 3px;"></div>
+            <h4>服務說明</h4>
+            <div style="font-size: 14px; color: white;">大家好，我是
+                William77，歡迎攝影師、圖像工作者、印刷業者們來了解個人推出的照片風格化服務。AI繪圖在現行的法制下無法享有著作權，而透過未經授權的圖片生成AI作品，可能涉及侵權，特別是以圖生圖的情況。在此，個人提供的服務無AI生圖版權的疑慮，生成作品購買後版權屬於客戶。產品將以數位檔交付，您也可以利用數位印刷的方式盈利，例如T-Shirt、畫作、手機殼等輸出品。本服務無法識別圖片源自何處，若有侵權，法律責任歸屬於買家，特此告知。
+            </div>
+            <h4>商品屬性</h4>
+            <div style="font-size: 14px;color: white">
+                照片風格化的服務，讓您的作品有新的詮釋。與AI相異之處在於本服務對於風格有更好的掌握力，同時享有版權保護。成品是否為藝術品，在於您的創作理念、構圖、主題、想要傳達的意念等等綜合因素。<br>
+            </div>
+            <h4>商品售價</h4>
+            <div style="font-size: 14px;color: white">
+                2048 x 2048 尺寸以內的生成圖新台幣 899，願意將作品放在本站展示可折 100；印刷品質圖案價格可談。請至精選作品展示頁面選擇喜歡的圖案。
+            </div>
+            <h5 style="text-align: right;">文案更新日期 20250510</h5>
+            <a style="color: white;background-color: rgb(200, 30, 50);text-decoration: none; padding: 5px; cursor: pointer; float:right"
+                href="https://www.facebook.com/william77.fun" target="_blank">作者臉書連結</a>
+        </div>
+        <div id="works"
+            style="position:fixed; top:0px;right:0px; width:700px;height:100vh;background-color: rgba(0,0,0,.7);transition: all .5s;opacity: 0;">
+            <div class="work" style="background: url(./assets/works/self.png);"
+                onclick="openWork('./assets/works/self.png')">
+            </div>
+            <div class="work" style="background: url(./assets/works/gwp.png);"
+                onclick="openWork('./assets/works/gwp.png')">
+            </div>
+            <div class="work" style="background: url(./assets/works/vg.png);"
+                onclick="openWork('./assets/works/vg.png')">
+            </div>
+            <div class="work" style="background: url(./assets/works/comic.png);"
+                onclick="openWork('./assets/works/comic.png')">
+            </div>
+            <div class="work" style="background: url(./assets/works/cool.png);"
+                onclick="openWork('./assets/works/cool.png')">
+            </div>
+            <div class="work" style="background: url(./assets/works/caligraphy.png);"
+                onclick="openWork('./assets/works/caligraphy.png')">
+            </div>
+            <div class="work" style="background: url(./assets/works/income.png);"
+                onclick="openWork('./assets/works/income.png')">
+            </div>
+            <div class="work" style="background: url(./assets/works/gogogo.png);"
+                onclick="openWork('./assets/works/gogogo.png')">
+            </div>
+            <div class="work" style="background: url(./assets/works/abstract.png);"
+                onclick="openWork('./assets/works/abstract.png')">
+            </div>
+            <div class="work" style="background: url(./assets/works/sakura.png);"
+                onclick="openWork('./assets/works/sakura.png')">
+            </div>
+            <div class="work" style="background: url(./assets/works/sk.png);"
+                onclick="openWork('./assets/works/sk.png')">
+            </div>
+            <div class="work" style="background: url(./assets/works/f3.png);"
+                onclick="openWork('./assets/works/f3.png')">
+            </div>
+            <div class="work" style="background: url(./assets/works/scene.png);"
+                onclick="openWork('./assets/works/scene.png')">
+            </div>
+            <div class="work" style="background: url(./assets/works/book.png);"
+                onclick="openWork('./assets/works/book.png')">
+            </div>
+            <div class="work" style="background: url(./assets/works/emoji.png);"
+                onclick="openWork('./assets/works/emoji.png')">
+            </div>
+            <div class="work"
+                style="display: flex; justify-content: center; align-items: center;color: gray; border:1px solid gray">
+                yours
+            </div>
+            <div class="work"
+                style="display: flex; justify-content: center; align-items: center;color: gray; border:1px solid gray">
+                yours
+            </div>
+            <div class="work"
+                style="display: flex; justify-content: center; align-items: center;color: gray; border:1px solid gray">
+                yours
+            </div>
+            <div class="work"
+                style="display: flex; justify-content: center; align-items: center;color: gray; border:1px solid gray">
+                yours
+            </div>
+            <div class="work"
+                style="display: flex; justify-content: center; align-items: center;color: gray; border:1px solid gray">
+                yours
+            </div>
+        </div>
+        <div id="free"
+            style="padding:10px; position:fixed; top:0px;right:0px; width:700px;height:100vh;background-color: rgba(0,0,0,.7);transition: all .5s; opacity: 0;">
+            <div>請選擇你的圖檔 - 目前僅提供隨機雙色調風格轉換</div>
+            <div>
+                <input id="freeF" type="file" style="border: 1px solid #333; padding:10px; margin-top: 5px;"
+                    onchange="loadImg(event)" />
+            </div>
+            <canvas id="freeCanvas" style="margin-top: 5px;"></canvas>
+        </div>
+        <!-- <div id="pay"
+            style="position:fixed; top:0px;right:0px; width:700px;height:100vh;background-color: rgba(0,0,0,.7);transition: all .5s;opacity: 0;">
+            <div class="work" style="background: url(./assets/pay/chijin.png);"
+                onclick="openWork('./assets/pay/chijin.png','文字陣列<br>自定義顯示文字不限文字長度，字型、字級、字距可調整')">
+            </div>
+        </div> -->
+    </div>
+    <script>
+        var layerCount = 0
+        function setActiveView(v) {
+            var introView = document.getElementById('introView')
+            introView.style.opacity = 0
+            var works = document.getElementById('works')
+            works.style.opacity = 0
+            var free = document.getElementById('free')
+            free.style.opacity = 0
+            // var pay = document.getElementById('pay')
+            // pay.style.opacity = 0
+            var m_intro = document.getElementById('m_intro')
+            var m_free = document.getElementById('m_free')
+            // var m_pay = document.getElementById('m_pay')
+            var m_pickup = document.getElementById('m_pickup')
+            m_intro.style.border = '0px solid white'
+            m_free.style.border = '0px solid white'
+            // m_pay.style.border = '0px solid white'
+            m_pickup.style.border = '0px solid white'
+            v.style.border = '1px solid white'
+        }
+
+        function enter() {
+            var enter = document.getElementsByClassName('enter')[0]
+            var triangle = document.getElementsByClassName('triangle')[0]
+            var triangle2 = document.getElementsByClassName('triangle2')[0]
+            var triangle3 = document.getElementsByClassName('triangle3')[0]
+            enter.style.opacity = 0
+            enter.style.zIndex = 0
+            triangle.style.opacity = 0
+            triangle2.style.borderWidth = '0px'
+            triangle2.style.width = 'calc(100vw - 10px)'
+            triangle2.style.height = 'calc(100vh - 10px)'
+            triangle2.style.left = '-5px'
+            triangle3.style.borderWidth = '0px'
+
+            var introView = document.getElementById('introView')
+            var container = document.getElementById('container')
+            var menu = document.getElementsByClassName('menu')[0]
+            introView.style.right = '0px'
+            container.style.opacity = 1
+            container.style.left = '0px'
+            menu.style.opacity = 1
+
+            // m_intro.click()
+            m_pickup.click()
+            // m_free.click()
+            // m_pay.click()
+
+            var works = [...document.getElementsByClassName('work')];
+            works.forEach((w, i) => {
+                var num = document.createElement('div')
+                num.style.display = 'flex'
+                num.style.left = '0px'
+                num.style.top = '0px'
+                num.style.width = '30px'
+                num.style.height = '20px'
+                num.style.background = 'rgba(0,0,0,.9)'
+                num.style.justifyContent = 'center'
+                num.style.alignItems = 'center'
+                num.innerHTML = i + 1
+                w.append(num)
+            })
+        }
+
+        function openWork(workUrl, info) {
+            var bg = document.createElement('div')
+            bg.style.position = 'fixed'
+            bg.style.display = 'flex'
+            bg.style.left = '0px'
+            bg.style.top = '0px'
+            bg.style.width = '100vw'
+            bg.style.height = '100vh'
+            bg.style.background = 'rgba(0,0,0,.9)'
+            bg.style.justifyContent = 'center'
+            bg.style.alignItems = 'center'
+            bg.style.opacity = 0;
+            bg.style.transition = 'all .5s'
+            document.body.append(bg)
+            var img = document.createElement('img')
+            img.src = workUrl;
+            img.style.height = '85vh'
+            img.style.border = '3px solid black'
+            img.style.outline = '3px solid white'
+            bg.append(img)
+            var close = document.createElement('span')
+            close.style.position = 'fixed'
+            close.style.display = 'flex'
+            close.style.right = '10px'
+            close.style.top = '10px'
+            close.style.color = 'white'
+            close.style.cursor = 'pointer'
+            close.innerHTML = 'close';
+            bg.append(close)
+            bg.onclick = () => { bg.remove() }
+            requestAnimationFrame(() => {
+                bg.style.opacity = 1;
+            })
+            if (info) {
+                let inf = document.createElement('div')
+                inf.style.position = 'fixed'
+                inf.style.left = '0px'
+                inf.style.top = '0px'
+                inf.style.padding = '20px'
+                inf.style.width = '300px'
+                inf.innerHTML = info
+                bg.append(inf)
+            }
+        }
+
+        function newContext(width, height) {
+            const canvas = document.createElement('canvas')
+            canvas.width = width
+            canvas.height = height
+            const ctx = canvas.getContext('2d')
+            return ctx
+        }
+
+        function px(ctx, pixelSize, handler) {
+            const data = ctx.getImageData(0, 0, ctx.canvas.width, ctx.canvas.height).data
+            const colorSize = 4
+            for (let j = 0; j < ctx.canvas.height; j += pixelSize) {
+                for (let i = 0; i < ctx.canvas.width * colorSize; i += colorSize * pixelSize) {
+                    const pos = i + j * ctx.canvas.width * colorSize
+                    const r = data[pos]
+                    const g = data[pos + 1]
+                    const b = data[pos + 2]
+                    const a = data[pos + 3]
+                    const x = i / colorSize
+                    const y = j
+                    handler(x, y, r, g, b, a)
+                }
+            }
+        }
+
+        function conv(r, g, b) {
+            r /= 255;
+            g /= 255;
+            b /= 255;
+            const v = Math.max(r, g, b),
+                n = v - Math.min(r, g, b);
+            const h =
+                n === 0 ? 0 : n && v === r ? (g - b) / n : v === g ? 2 + (b - r) / n : 4 + (r - g) / n;
+            return [60 * (h < 0 ? h + 6 : h), v && (n / v) * 100, v * 100];
+        };
+
+        function loadImg(e) {
+            var file = e.target.files[0];
+            var fr = new FileReader()
+            fr.onload = e => {
+                var img = new Image
+                img.onload = () => {
+                    let [nPixelSize, nThreshold, nRed1, nGreen1, nBlue1, nRed2, nGreen2, nBlue2] = [2, .5, Math.random() * 255, Math.random() * 255, Math.random() * 255, Math.random() * 255, Math.random() * 255, Math.random() * 255];
+                    img.onload = null;
+                    freeCanvas.width = img.naturalWidth;
+                    freeCanvas.height = img.naturalHeight;
+                    freeCanvas.style.height = freeCanvas.height > 600 ? '600px' : freeCanvas.height
+                    var ctx = freeCanvas.getContext('2d')
+                    ctx.drawImage(img, 0, 0);
+                    var canvas = ctx.canvas
+                    var ctx2 = newContext(canvas.width, canvas.height)
+                    ctx2.drawImage(canvas, 0, 0)
+                    px(ctx2, nPixelSize, (x, y, r, g, b, a) => {
+                        let [hue, saturation, brightness] = conv(r, g, b)
+                        if (brightness >= nThreshold * 100) brightness = 100
+                        else brightness = 0
+                        if (brightness == 100) {
+                            ctx.fillStyle = `rgba(${nRed1},${nGreen1},${nBlue1},${a})`
+                        } else {
+                            ctx.fillStyle = `rgba(${nRed2},${nGreen2},${nBlue2},${a})`
+                        }
+                        ctx.fillRect(x, y, nPixelSize, nPixelSize)
+                    })
+                    img.remove()
+                    freeF.value = null
+                }
+                img.src = e.target.result
+            }
+            fr.readAsDataURL(file)
+        }
+    </script>
+</body>
+
+</html>
