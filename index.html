@@ -18,6 +18,7 @@
             background-color: #000;
             color: white;
             font-family: Arial, Helvetica, sans-serif;
+            line-height: 1.5em;
         }
 
         .logo {
@@ -141,7 +142,8 @@
             cursor: pointer;
             transition: all .5s;
             filter: grayscale(1);
-            box-sizing: border-box
+            box-sizing: border-box;
+            transition: all .5s;
         }
 
         .work:hover {
@@ -152,7 +154,6 @@
             width: 161px;
             height: 161px;
             background-size: cover !important;
-            /* float: left; */
             margin: 7px;
             margin-right: 0px;
             margin-bottom: 0px;
@@ -194,7 +195,7 @@
                     onclick="setActiveView(this);pay.style.opacity = 1;pay.style.zIndex=++layerCount;">產品說明</span>
             </div>
             <div><span id="m_pickup"
-                    onclick="setActiveView(this);works.style.opacity = 1;works.style.zIndex=++layerCount;">官方精選</span>
+                    onclick="setActiveView(this);works.style.opacity = 1;works.style.zIndex=++layerCount;showWorks()">官方精選</span>
             </div>
             <div><span id="m_intro"
                     onclick="setActiveView(this);introView.style.opacity = 1;introView.style.zIndex=++layerCount;">服務說明</span>
@@ -218,15 +219,20 @@
             </div>
             <h4>商品售價</h4>
             <div style="font-size: 14px;color: white">
-                不接受 1024像素 x 1024像素 以下圖片，若17.34cm x 17.34cm 300dpi 則大小為 2048像素 x 2048像素，
-                目前定價方式是 (寬cm x 高cm) x 80，譬如 (17.34cm + 17.34cm) x 80 = 2770 NTD (成品解析度是 300dpi)
-                。另外願意將作品放在本站展示可折 100 NTD。<br><br><a href="https://tools360.net/zh-Hant/px-to-cm-converter"
-                    target="_blank"
-                    style="color: white;background-color: rgb(200, 30, 50);text-decoration: none;padding: 5px;">像素公分互轉工具</a>
+                不接受尺寸 1024像素 x 1024像素 以下圖片。若 2048像素 x 2048像素 300dpi 則大小為 17.34cm x 17.34cm，
+                目前定價方式是 (寬cm + 高cm) x 80，譬如 (17.34cm + 17.34cm) x 80 = 2770 NTD，其中 80 為可調係數。
+                另外願意將作品放在本站展示可折 100 NTD。
+
+                <h5 style="text-align: right;">文案更新日期 20250512</h5>
+
+                <a href="https://tools360.net/zh-Hant/px-to-cm-converter" target="_blank"
+                    style="color: white;background-color: rgb(200, 30, 50);text-decoration: none;padding: 5px;font-size: 1.2em;">像素公分互轉工具</a>
+
+                <a style="color: white;background-color: rgb(200, 30, 50);text-decoration: none; padding: 5px; cursor: pointer;font-size: 1.2em"
+                    href="https://www.facebook.com/william77.fun" target="_blank">作者臉書連結</a>
             </div>
-            <h5 style="text-align: right;">文案更新日期 20250510</h5>
-            <a style="color: white;background-color: rgb(200, 30, 50);text-decoration: none; padding: 5px; cursor: pointer; float:right"
-                href="https://www.facebook.com/william77.fun" target="_blank">作者臉書連結</a>
+
+
         </div>
         <div id="works"
             style="position:fixed; top:0px;right:0px; width:700px;height:100vh;background-color: rgba(0,0,0,.7);transition: all .5s;opacity: 0;">
@@ -354,6 +360,24 @@
                     v.style.border = '1px solid white'
                 }
 
+                async function showWorks() {
+
+                    var works = [...document.getElementsByClassName('work')];
+                    for (var i = 0; i < works.length; i++) {
+                        if (works[i].style.background) {
+                            var imgUrl = works[i].style.background.split('"')[1];
+                            var img = new Image
+                            await new Promise(resolve => {
+                                img.onload = _ => resolve()
+                                img.src = imgUrl;
+                            })
+                        }
+                        works[i].style.display = 'flex';
+                        works[i].style.opacity = 1;
+                        await new Promise(resolve => setTimeout(resolve, 10))
+                    }
+                }
+
                 function enter() {
                     var enter = document.getElementsByClassName('enter')[0]
                     var triangle = document.getElementsByClassName('triangle')[0]
@@ -382,7 +406,11 @@
                     m_pay.click()
 
                     var works = [...document.getElementsByClassName('work')];
-                    works.forEach((w, i) => {
+                    works.forEach(async (w, i) => {
+                        w.style.display = 'none'
+                        w.style.opacity = 0
+                    })
+                    works.forEach(async (w, i) => {
                         var num = document.createElement('div')
                         num.style.display = 'flex'
                         num.style.left = '0px'
