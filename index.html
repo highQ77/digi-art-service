@@ -147,6 +147,26 @@
         .work:hover {
             filter: grayscale(0);
         }
+
+        .pay {
+            width: 161px;
+            height: 161px;
+            background-size: cover !important;
+            /* float: left; */
+            margin: 7px;
+            margin-right: 0px;
+            margin-bottom: 0px;
+            background-repeat: no-repeat;
+            box-shadow: 0px 0px 10px black;
+            cursor: pointer;
+            transition: all .5s;
+            filter: grayscale(1);
+            box-sizing: border-box
+        }
+
+        .pay:hover {
+            filter: grayscale(0);
+        }
     </style>
 </head>
 
@@ -170,8 +190,11 @@
     <div id="container">
         <div class="menu">
             <div style="color:rgb(200, 30, 50);">MENU</div>
+            <div><span id="m_pay"
+                    onclick="setActiveView(this);pay.style.opacity = 1;pay.style.zIndex=++layerCount;">產品說明</span>
+            </div>
             <div><span id="m_pickup"
-                    onclick="setActiveView(this);works.style.opacity = 1;works.style.zIndex=++layerCount;">精選作品展示</span>
+                    onclick="setActiveView(this);works.style.opacity = 1;works.style.zIndex=++layerCount;">官方精選</span>
             </div>
             <div><span id="m_intro"
                     onclick="setActiveView(this);introView.style.opacity = 1;introView.style.zIndex=++layerCount;">服務說明</span>
@@ -179,9 +202,7 @@
             <div><span id="m_free"
                     onclick="setActiveView(this);free.style.opacity = 1;free.style.zIndex=++layerCount;">免費體驗</span>
             </div>
-            <!-- <div><span id="m_pay"
-                    onclick="setActiveView(this);pay.style.opacity = 1;pay.style.zIndex=++layerCount;">付費圖案風格化</span>
-            </div> -->
+
         </div>
         <div id="introView"
             style="position:fixed; top:0px;right:-330px; width:330px;height:100vh; background-color: rgba(60, 60, 60, .8);padding: 20px; box-sizing: border-box;overflow: scroll; color:#CCC; transition: all .5s; opacity: 0;">
@@ -197,7 +218,7 @@
             </div>
             <h4>商品售價</h4>
             <div style="font-size: 14px;color: white">
-                2048 x 2048 尺寸以內的生成圖新台幣 899，願意將作品放在本站展示可折 100；印刷品質圖案價格可談。請至精選作品展示頁面選擇喜歡的圖案。
+                2048 x 2048 尺寸以內的生成圖新台幣 899，願意將作品放在本站展示可折 100；印刷品質圖案價格可談。請至官方精選頁面選擇喜歡的圖案。
             </div>
             <h5 style="text-align: right;">文案更新日期 20250510</h5>
             <a style="color: white;background-color: rgb(200, 30, 50);text-decoration: none; padding: 5px; cursor: pointer; float:right"
@@ -273,201 +294,222 @@
         </div>
         <div id="free"
             style="padding:10px; position:fixed; top:0px;right:0px; width:700px;height:100vh;background-color: rgba(0,0,0,.7);transition: all .5s; opacity: 0;">
-            <div>請選擇你的圖檔 - 目前僅提供隨機雙色調風格轉換</div>
+            <div>請選擇你的圖檔 - 目前僅提供隨機雙色調風格轉換新風格</div>
             <div>
                 <input id="freeF" type="file" style="border: 1px solid #333; padding:10px; margin-top: 5px;"
                     onchange="loadImg(event)" />
             </div>
             <canvas id="freeCanvas" style="margin-top: 5px;"></canvas>
         </div>
-        <!-- <div id="pay"
-            style="position:fixed; top:0px;right:0px; width:700px;height:100vh;background-color: rgba(0,0,0,.7);transition: all .5s;opacity: 0;">
-            <div class="work" style="background: url(./assets/pay/chijin.png);"
-                onclick="openWork('./assets/pay/chijin.png','文字陣列<br>自定義顯示文字不限文字長度，字型、字級、字距可調整')">
+        <div id="pay"
+            style="position:fixed; top:0px;right:0px; width:350px;height:100vh;background-color: rgba(0,0,0,.7);transition: all .5s;opacity: 0;">
+            <div style="padding-left: 7px; border-top: 8px solid rgb(233, 101, 117);">
+                <h3 style="padding:0px 7px;">產品種類：前後對比圖</h3>
+                <div style="padding:10px 7px; color: #CCC;">請參考官方精選選擇指定編號風格，下方圖可點擊放大</div>
+                <div>
+                    <div style="padding:10px 7px;">product-1 電腦用字轉換</div>
+                    <div style="display: flex;">
+                        <div class="pay" style="background: url(./assets/pay/rich.png);"
+                            onclick="openWork('./assets/pay/rich.png')">
+                        </div>
+                        <div class="pay" style="background: url(./assets/works/income.png);"
+                            onclick="openWork('./assets/works/income.png')">
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div style="padding:10px 7px;padding-top: 30px;">product-2 照片風格化</div>
+                    <div style="display: flex;">
+                        <div class="pay" style="background: url(./assets/pay/sk.png);"
+                            onclick="openWork('./assets/pay/sk.png')">
+                        </div>
+                        <div class="pay" style="background: url(./assets/works/sk.png);"
+                            onclick="openWork('./assets/works/sk.png')">
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div> -->
-    </div>
-    <script>
-        var layerCount = 0
-        function setActiveView(v) {
-            var introView = document.getElementById('introView')
-            introView.style.opacity = 0
-            var works = document.getElementById('works')
-            works.style.opacity = 0
-            var free = document.getElementById('free')
-            free.style.opacity = 0
-            // var pay = document.getElementById('pay')
-            // pay.style.opacity = 0
-            var m_intro = document.getElementById('m_intro')
-            var m_free = document.getElementById('m_free')
-            // var m_pay = document.getElementById('m_pay')
-            var m_pickup = document.getElementById('m_pickup')
-            m_intro.style.border = '0px solid white'
-            m_free.style.border = '0px solid white'
-            // m_pay.style.border = '0px solid white'
-            m_pickup.style.border = '0px solid white'
-            v.style.border = '1px solid white'
-        }
-
-        function enter() {
-            var enter = document.getElementsByClassName('enter')[0]
-            var triangle = document.getElementsByClassName('triangle')[0]
-            var triangle2 = document.getElementsByClassName('triangle2')[0]
-            var triangle3 = document.getElementsByClassName('triangle3')[0]
-            enter.style.opacity = 0
-            enter.style.zIndex = 0
-            triangle.style.opacity = 0
-            triangle2.style.borderWidth = '0px'
-            triangle2.style.width = 'calc(100vw - 10px)'
-            triangle2.style.height = 'calc(100vh - 10px)'
-            triangle2.style.left = '-5px'
-            triangle3.style.borderWidth = '0px'
-
-            var introView = document.getElementById('introView')
-            var container = document.getElementById('container')
-            var menu = document.getElementsByClassName('menu')[0]
-            introView.style.right = '0px'
-            container.style.opacity = 1
-            container.style.left = '0px'
-            menu.style.opacity = 1
-
-            // m_intro.click()
-            m_pickup.click()
-            // m_free.click()
-            // m_pay.click()
-
-            var works = [...document.getElementsByClassName('work')];
-            works.forEach((w, i) => {
-                var num = document.createElement('div')
-                num.style.display = 'flex'
-                num.style.left = '0px'
-                num.style.top = '0px'
-                num.style.width = '30px'
-                num.style.height = '20px'
-                num.style.background = 'rgba(0,0,0,.9)'
-                num.style.justifyContent = 'center'
-                num.style.alignItems = 'center'
-                num.innerHTML = i + 1
-                w.append(num)
-            })
-        }
-
-        function openWork(workUrl, info) {
-            var bg = document.createElement('div')
-            bg.style.position = 'fixed'
-            bg.style.display = 'flex'
-            bg.style.left = '0px'
-            bg.style.top = '0px'
-            bg.style.width = '100vw'
-            bg.style.height = '100vh'
-            bg.style.background = 'rgba(0,0,0,.9)'
-            bg.style.justifyContent = 'center'
-            bg.style.alignItems = 'center'
-            bg.style.opacity = 0;
-            bg.style.transition = 'all .5s'
-            document.body.append(bg)
-            var img = document.createElement('img')
-            img.src = workUrl;
-            img.style.height = '85vh'
-            img.style.border = '3px solid black'
-            img.style.outline = '3px solid white'
-            bg.append(img)
-            var close = document.createElement('span')
-            close.style.position = 'fixed'
-            close.style.display = 'flex'
-            close.style.right = '10px'
-            close.style.top = '10px'
-            close.style.color = 'white'
-            close.style.cursor = 'pointer'
-            close.innerHTML = 'close';
-            bg.append(close)
-            bg.onclick = () => { bg.remove() }
-            requestAnimationFrame(() => {
-                bg.style.opacity = 1;
-            })
-            if (info) {
-                let inf = document.createElement('div')
-                inf.style.position = 'fixed'
-                inf.style.left = '0px'
-                inf.style.top = '0px'
-                inf.style.padding = '20px'
-                inf.style.width = '300px'
-                inf.innerHTML = info
-                bg.append(inf)
-            }
-        }
-
-        function newContext(width, height) {
-            const canvas = document.createElement('canvas')
-            canvas.width = width
-            canvas.height = height
-            const ctx = canvas.getContext('2d')
-            return ctx
-        }
-
-        function px(ctx, pixelSize, handler) {
-            const data = ctx.getImageData(0, 0, ctx.canvas.width, ctx.canvas.height).data
-            const colorSize = 4
-            for (let j = 0; j < ctx.canvas.height; j += pixelSize) {
-                for (let i = 0; i < ctx.canvas.width * colorSize; i += colorSize * pixelSize) {
-                    const pos = i + j * ctx.canvas.width * colorSize
-                    const r = data[pos]
-                    const g = data[pos + 1]
-                    const b = data[pos + 2]
-                    const a = data[pos + 3]
-                    const x = i / colorSize
-                    const y = j
-                    handler(x, y, r, g, b, a)
+            <script>
+                var layerCount = 0
+                function setActiveView(v) {
+                    var introView = document.getElementById('introView')
+                    introView.style.opacity = 0
+                    var works = document.getElementById('works')
+                    works.style.opacity = 0
+                    var free = document.getElementById('free')
+                    free.style.opacity = 0
+                    var pay = document.getElementById('pay')
+                    pay.style.opacity = 0
+                    var m_intro = document.getElementById('m_intro')
+                    var m_free = document.getElementById('m_free')
+                    var m_pay = document.getElementById('m_pay')
+                    var m_pickup = document.getElementById('m_pickup')
+                    m_intro.style.border = '0px solid white'
+                    m_free.style.border = '0px solid white'
+                    m_pay.style.border = '0px solid white'
+                    m_pickup.style.border = '0px solid white'
+                    v.style.border = '1px solid white'
                 }
-            }
-        }
 
-        function conv(r, g, b) {
-            r /= 255;
-            g /= 255;
-            b /= 255;
-            const v = Math.max(r, g, b),
-                n = v - Math.min(r, g, b);
-            const h =
-                n === 0 ? 0 : n && v === r ? (g - b) / n : v === g ? 2 + (b - r) / n : 4 + (r - g) / n;
-            return [60 * (h < 0 ? h + 6 : h), v && (n / v) * 100, v * 100];
-        };
+                function enter() {
+                    var enter = document.getElementsByClassName('enter')[0]
+                    var triangle = document.getElementsByClassName('triangle')[0]
+                    var triangle2 = document.getElementsByClassName('triangle2')[0]
+                    var triangle3 = document.getElementsByClassName('triangle3')[0]
+                    enter.style.opacity = 0
+                    enter.style.zIndex = 0
+                    triangle.style.opacity = 0
+                    triangle2.style.borderWidth = '0px'
+                    triangle2.style.width = 'calc(100vw - 10px)'
+                    triangle2.style.height = 'calc(100vh - 10px)'
+                    triangle2.style.left = '-5px'
+                    triangle3.style.borderWidth = '0px'
 
-        function loadImg(e) {
-            var file = e.target.files[0];
-            var fr = new FileReader()
-            fr.onload = e => {
-                var img = new Image
-                img.onload = () => {
-                    let [nPixelSize, nThreshold, nRed1, nGreen1, nBlue1, nRed2, nGreen2, nBlue2] = [2, .5, Math.random() * 255, Math.random() * 255, Math.random() * 255, Math.random() * 255, Math.random() * 255, Math.random() * 255];
-                    img.onload = null;
-                    freeCanvas.width = img.naturalWidth;
-                    freeCanvas.height = img.naturalHeight;
-                    freeCanvas.style.height = freeCanvas.height > 600 ? '600px' : freeCanvas.height
-                    var ctx = freeCanvas.getContext('2d')
-                    ctx.drawImage(img, 0, 0);
-                    var canvas = ctx.canvas
-                    var ctx2 = newContext(canvas.width, canvas.height)
-                    ctx2.drawImage(canvas, 0, 0)
-                    px(ctx2, nPixelSize, (x, y, r, g, b, a) => {
-                        let [hue, saturation, brightness] = conv(r, g, b)
-                        if (brightness >= nThreshold * 100) brightness = 100
-                        else brightness = 0
-                        if (brightness == 100) {
-                            ctx.fillStyle = `rgba(${nRed1},${nGreen1},${nBlue1},${a})`
-                        } else {
-                            ctx.fillStyle = `rgba(${nRed2},${nGreen2},${nBlue2},${a})`
-                        }
-                        ctx.fillRect(x, y, nPixelSize, nPixelSize)
+                    var introView = document.getElementById('introView')
+                    var container = document.getElementById('container')
+                    var menu = document.getElementsByClassName('menu')[0]
+                    introView.style.right = '0px'
+                    container.style.opacity = 1
+                    container.style.left = '0px'
+                    menu.style.opacity = 1
+
+                    // m_intro.click()
+                    // m_pickup.click()
+                    // m_free.click()
+                    m_pay.click()
+
+                    var works = [...document.getElementsByClassName('work')];
+                    works.forEach((w, i) => {
+                        var num = document.createElement('div')
+                        num.style.display = 'flex'
+                        num.style.left = '0px'
+                        num.style.top = '0px'
+                        num.style.width = '30px'
+                        num.style.height = '20px'
+                        num.style.background = 'rgba(0,0,0,.9)'
+                        num.style.justifyContent = 'center'
+                        num.style.alignItems = 'center'
+                        num.innerHTML = i + 1
+                        w.append(num)
                     })
-                    img.remove()
-                    freeF.value = null
                 }
-                img.src = e.target.result
-            }
-            fr.readAsDataURL(file)
-        }
-    </script>
+
+                function openWork(workUrl, info) {
+                    var bg = document.createElement('div')
+                    bg.style.position = 'fixed'
+                    bg.style.display = 'flex'
+                    bg.style.left = '0px'
+                    bg.style.top = '0px'
+                    bg.style.width = '100vw'
+                    bg.style.height = '100vh'
+                    bg.style.background = 'rgba(0,0,0,.9)'
+                    bg.style.justifyContent = 'center'
+                    bg.style.alignItems = 'center'
+                    bg.style.opacity = 0;
+                    bg.style.transition = 'all .5s'
+                    document.body.append(bg)
+                    var img = document.createElement('img')
+                    img.src = workUrl;
+                    img.style.height = '85vh'
+                    img.style.border = '3px solid black'
+                    img.style.outline = '3px solid white'
+                    bg.append(img)
+                    var close = document.createElement('span')
+                    close.style.position = 'fixed'
+                    close.style.display = 'flex'
+                    close.style.right = '10px'
+                    close.style.top = '10px'
+                    close.style.color = 'white'
+                    close.style.cursor = 'pointer'
+                    close.innerHTML = 'close';
+                    bg.append(close)
+                    bg.onclick = () => { bg.remove() }
+                    requestAnimationFrame(() => {
+                        bg.style.opacity = 1;
+                    })
+                    if (info) {
+                        let inf = document.createElement('div')
+                        inf.style.position = 'fixed'
+                        inf.style.left = '0px'
+                        inf.style.top = '0px'
+                        inf.style.padding = '20px'
+                        inf.style.width = '300px'
+                        inf.innerHTML = info
+                        bg.append(inf)
+                    }
+                }
+
+                function newContext(width, height) {
+                    const canvas = document.createElement('canvas')
+                    canvas.width = width
+                    canvas.height = height
+                    const ctx = canvas.getContext('2d')
+                    return ctx
+                }
+
+                function px(ctx, pixelSize, handler) {
+                    const data = ctx.getImageData(0, 0, ctx.canvas.width, ctx.canvas.height).data
+                    const colorSize = 4
+                    for (let j = 0; j < ctx.canvas.height; j += pixelSize) {
+                        for (let i = 0; i < ctx.canvas.width * colorSize; i += colorSize * pixelSize) {
+                            const pos = i + j * ctx.canvas.width * colorSize
+                            const r = data[pos]
+                            const g = data[pos + 1]
+                            const b = data[pos + 2]
+                            const a = data[pos + 3]
+                            const x = i / colorSize
+                            const y = j
+                            handler(x, y, r, g, b, a)
+                        }
+                    }
+                }
+
+                function conv(r, g, b) {
+                    r /= 255;
+                    g /= 255;
+                    b /= 255;
+                    const v = Math.max(r, g, b),
+                        n = v - Math.min(r, g, b);
+                    const h =
+                        n === 0 ? 0 : n && v === r ? (g - b) / n : v === g ? 2 + (b - r) / n : 4 + (r - g) / n;
+                    return [60 * (h < 0 ? h + 6 : h), v && (n / v) * 100, v * 100];
+                };
+
+                function loadImg(e) {
+                    var file = e.target.files[0];
+                    var fr = new FileReader()
+                    fr.onload = e => {
+                        var img = new Image
+                        img.onload = () => {
+                            let [nPixelSize, nThreshold, nRed1, nGreen1, nBlue1, nRed2, nGreen2, nBlue2] = [2, .5, Math.random() * 255, Math.random() * 255, Math.random() * 255, Math.random() * 255, Math.random() * 255, Math.random() * 255];
+                            img.onload = null;
+                            freeCanvas.width = img.naturalWidth;
+                            freeCanvas.height = img.naturalHeight;
+                            freeCanvas.style.height = freeCanvas.height > 600 ? '600px' : freeCanvas.height
+                            var ctx = freeCanvas.getContext('2d')
+                            ctx.drawImage(img, 0, 0);
+                            var canvas = ctx.canvas
+                            var ctx2 = newContext(canvas.width, canvas.height)
+                            ctx2.drawImage(canvas, 0, 0)
+                            px(ctx2, nPixelSize, (x, y, r, g, b, a) => {
+                                let [hue, saturation, brightness] = conv(r, g, b)
+                                if (brightness >= nThreshold * 100) brightness = 100
+                                else brightness = 0
+                                if (brightness == 100) {
+                                    ctx.fillStyle = `rgba(${nRed1},${nGreen1},${nBlue1},${a})`
+                                } else {
+                                    ctx.fillStyle = `rgba(${nRed2},${nGreen2},${nBlue2},${a})`
+                                }
+                                ctx.fillRect(x, y, nPixelSize, nPixelSize)
+                            })
+                            img.remove()
+                            freeF.value = null
+                        }
+                        img.src = e.target.result
+                    }
+                    fr.readAsDataURL(file)
+                }
+            </script>
 </body>
 
 </html>
